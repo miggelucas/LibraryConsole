@@ -1,5 +1,5 @@
 //
-//  App.swift
+//  Main.swift
 //  LibraryConsole
 //
 //  Created by Lucas Migge on 23/07/24.
@@ -7,23 +7,20 @@
 
 import Foundation
 
-class App {
+protocol Station {
+    func start()
+    
+    var navigationHandler: (App.Destination) -> Void { get set }
+}
+
+struct MainHub: Station {
     
     func start() {
-        greetings()
         presentMainHubStation()
     }
     
-    func greetings() {
-        print("#############################")
-        print("\n")
-        print("Wellcome to Console Library!")
-        print("I'm here to help you!")
-        print("what kind of assistance do you need today?")
-        print("\n")
-        print("#############################")
-        print("\n")
-    }
+    var navigationHandler: (App.Destination) -> Void
+    
     
     func presentMainHubStation() {
         printServiceList()
@@ -36,13 +33,13 @@ class App {
         if let routingOption = Int(userAnswer) {
             switch routingOption {
             case 1:
-                print("Should present Library Info")
+                navigationHandler(.info)
                 
             case 2:
-                print("Should present Donate a Book")
+                navigationHandler(.donate)
                 
             case 3:
-                print("Should present Rent a book")
+                navigationHandler(.rent)
               
             default:
                 print("It seems that you chose a invalid option")
@@ -51,7 +48,7 @@ class App {
             
         } else {
             if "quit" == userAnswer.lowercased() {
-                print("shutting down....")
+                navigationHandler(.shutDown)
             } else {
                 print("It seems that you chose a invalid option")
                 presentMainHubStation()
