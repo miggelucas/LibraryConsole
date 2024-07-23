@@ -58,26 +58,22 @@ class App {
     
     
     func stationFactory(destination: Destination) -> Station? {
+        
+        var navigationHandler: (Destination) -> Void = { [weak self] destination in
+            self?.navigateTo(destination)
+        }
+        
         switch destination {
         case .shutDown:
             return nil
         case .mainHub:
-            return MainHub { [weak self] destination in
-                self?.navigateTo(destination)
-            }
+            return MainHub(navigationHandler: navigationHandler)
         case .info:
-            return Info { [weak self] destination in
-                self?.navigateTo(destination)
-            }
+            return Info(navigationHandler: navigationHandler)
         case .donate:
-            return Donate { [weak self] destination in
-                self?.navigateTo(destination)
-            }
+            return Donate(navigationHandler: navigationHandler)
         case .rent:
-            return Rent { [weak self] destination in
-                self?.navigateTo(destination)
-            }
+            return Rent(navigationHandler: navigationHandler)
         }
-        
     }
 }
