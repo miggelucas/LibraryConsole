@@ -12,7 +12,6 @@ struct Donate: Station {
         print("You are on donate station")
     }
     
-    var navigationHandler: (App.Destination) -> Void
-    
+    var navigationHandler: (Destination) -> Void
     
 }

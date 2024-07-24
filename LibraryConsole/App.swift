@@ -9,57 +9,28 @@ import Foundation
 
 class App {
     
-    var currentDestination: Destination = .mainHub
+    private var currentDestination: Destination = .mainHub
     
     func start() {
-        greetings()
+        Logs.greetings()
         navigateTo(currentDestination)
     }
     
-    func greetings() {
-        print("#############################")
-        print("\n")
-        print("Wellcome to Console Library!")
-        print("I'm here to help you!")
-        print("what kind of assistance do you need today?")
-        print("\n")
-        print("#############################")
-        print("\n")
-    }
-    
-    func shutdownMessage() {
-        print("#############################")
-        print("\n")
-        print("Goodbye!")
-        print("See you next time")
-        print("\n")
-        print("#############################")
-        print("\n")
-    }
-    
-    func navigateTo(_ destination: Destination) {
+    private func navigateTo(_ destination: Destination) {
         switch destination {
         case .shutDown:
-            shutdownMessage()
+            Logs.shutdown()
         default:
             if let station = stationFactory(destination: destination) {
                 station.start()
+            } else {
+                Logs.destinationFail()
             }
         }
     }
     
-    enum Destination {
-        case shutDown
-        case mainHub
-        case info
-        case donate
-        case rent
-    }
-    
-    
-    func stationFactory(destination: Destination) -> Station? {
-        
-        var navigationHandler: (Destination) -> Void = { [weak self] destination in
+    private func stationFactory(destination: Destination) -> Station? {
+        let navigationHandler: (Destination) -> Void = { [weak self] destination in
             self?.navigateTo(destination)
         }
         
@@ -74,6 +45,37 @@ class App {
             return Donate(navigationHandler: navigationHandler)
         case .rent:
             return Rent(navigationHandler: navigationHandler)
+        }
+    }
+}
+
+extension App {
+    private struct Logs {
+        static func greetings() {
+            print("#############################")
+            print("\n")
+            print("Wellcome to Console Library!")
+            print("I'm here to help you!")
+            print("what kind of assistance do you need today?")
+            print("\n")
+            print("#############################")
+            print("\n")
+        }
+        
+        static func shutdown() {
+            print("#############################")
+            print("\n")
+            print("Goodbye!")
+            print("See you next time")
+            print("\n")
+            print("#############################")
+            print("\n")
+        }
+        
+        static func destinationFail() {
+            print("ops...")
+            print("It seems some error occurred when trying to navigate to next destination...")
+            print("Turning system down.")
         }
     }
 }

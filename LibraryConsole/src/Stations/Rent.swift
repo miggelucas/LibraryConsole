@@ -12,6 +12,6 @@ struct Rent: Station {
         print("You are on Rent a book station")
     }
     
-    var navigationHandler: (App.Destination) -> Void
+    var navigationHandler: (Destination) -> Void
     
 }

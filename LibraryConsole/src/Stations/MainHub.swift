@@ -7,11 +7,6 @@
 
 import Foundation
 
-protocol Station {
-    func start()
-    
-    var navigationHandler: (App.Destination) -> Void { get set }
-}
 
 struct MainHub: Station {
     
@@ -19,11 +14,11 @@ struct MainHub: Station {
         presentMainHubStation()
     }
     
-    var navigationHandler: (App.Destination) -> Void
+    var navigationHandler: (Destination) -> Void
     
     
     func presentMainHubStation() {
-        printServiceList()
+        Logs.serviceList()
         requestUserInteraction(prompt: "Select a option: ") { answer in
             self.handleMainHubStationAnswer(userAnswer: answer)
         }
@@ -42,42 +37,55 @@ struct MainHub: Station {
                 navigationHandler(.rent)
               
             default:
-                print("It seems that you chose a invalid option")
-                presentMainHubStation()
+               userDidChooseInvalidAnswer()
             }
             
         } else {
             if "quit" == userAnswer.lowercased() {
                 navigationHandler(.shutDown)
             } else {
-                print("It seems that you chose a invalid option")
-                presentMainHubStation()
+                userDidChooseInvalidAnswer()
             }
         }
     }
     
-    func printServiceList() {
-        
-        print("Please choose a option between the provided list:")
-        print("")
-        print("  1 -> Library Info")
-        print("  2 -> Donate a book")
-        print("  3 -> Rent a book")
-        print("  quit -> Shutdown Service")
-        print("")
-
+    private func userDidChooseInvalidAnswer() {
+        Logs.invalidOption()
+        presentMainHubStation()
     }
     
-    func requestUserInteraction(prompt: String, answerHandler: @escaping (String) -> Void) {
+    private func requestUserInteraction(prompt: String, answerHandler: (String) -> Void) {
         print(prompt)
         if let answerRaw = readLine(strippingNewline: true) {
             answerHandler(answerRaw)
         } else {
-            print("Ops...")
-            print("Something it's off.")
+            Logs.error()
             requestUserInteraction(prompt: prompt, answerHandler: { answer in
                 answerHandler(answer)
             })
+        }
+    }
+}
+
+extension MainHub {
+    private struct Logs {
+        static func serviceList() {
+            print("Please choose a option between the provided list:")
+            print("")
+            print("  1 -> Library Info")
+            print("  2 -> Donate a book")
+            print("  3 -> Rent a book")
+            print("  quit -> Shutdown Service")
+            print("")
+        }
+        
+        static func error() {
+            print("Ops...")
+            print("Something it's off.")
+        }
+        
+        static func invalidOption() {
+            print("It seems that you chose a invalid option")
         }
     }
 }

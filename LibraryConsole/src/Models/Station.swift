@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+protocol Station {
+    func start()
+    
+    var navigationHandler: (Destination) -> Void { get set }
+}

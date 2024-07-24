@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+enum Destination {
+    case shutDown
+    case mainHub
+    case info
+    case donate
+    case rent
+}
