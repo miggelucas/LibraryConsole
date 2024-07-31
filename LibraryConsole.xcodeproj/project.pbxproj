@@ -16,6 +16,7 @@
 		0C53F3E82C501945006D253E /* Station.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C53F3E72C501945006D253E /* Station.swift */; };
 		0C53F3EA2C501954006D253E /* Destination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C53F3E92C501954006D253E /* Destination.swift */; };
 		0CC827F42C598B50001860C6 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC827F32C598B50001860C6 /* Auth.swift */; };
+		0CC827F72C599677001860C6 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC827F62C599677001860C6 /* AuthService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,7 @@
 		0C53F3E72C501945006D253E /* Station.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Station.swift; sourceTree = "<group>"; };
 		0C53F3E92C501954006D253E /* Destination.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Destination.swift; sourceTree = "<group>"; };
 		0CC827F32C598B50001860C6 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
+		0CC827F62C599677001860C6 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 		0C53F3DE2C4FE28F006D253E /* src */ = {
 			isa = PBXGroup;
 			children = (
+				0CC827F52C599662001860C6 /* Service */,
 				0C53F3EC2C50196A006D253E /* Stations */,
 				0C53F3EB2C501960006D253E /* Models */,
 			);
@@ -108,6 +111,14 @@
 				0CC827F32C598B50001860C6 /* Auth.swift */,
 			);
 			path = Stations;
+			sourceTree = "<group>";
+		};
+		0CC827F52C599662001860C6 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				0CC827F62C599677001860C6 /* AuthService.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,6 +186,7 @@
 				0C53F3D62C4FE25C006D253E /* main.swift in Sources */,
 				0C53F3DD2C4FE285006D253E /* App.swift in Sources */,
 				0C53F3EA2C501954006D253E /* Destination.swift in Sources */,
+				0CC827F72C599677001860C6 /* AuthService.swift in Sources */,
 				0C53F3E82C501945006D253E /* Station.swift in Sources */,
 				0CC827F42C598B50001860C6 /* Auth.swift in Sources */,
 			);

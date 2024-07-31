@@ -45,6 +45,8 @@ class App {
             return Donate(navigationHandler: navigationHandler)
         case .rent:
             return Rent(navigationHandler: navigationHandler)
+        case .auth:
+            return Auth(navigationHandler: navigationHandler)
         }
     }
 }

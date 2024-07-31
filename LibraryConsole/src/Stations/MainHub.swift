@@ -35,6 +35,9 @@ struct MainHub: Station {
                 
             case 3:
                 navigationHandler(.rent)
+                
+            case 4:
+                navigationHandler(.auth)
               
             default:
                userDidChooseInvalidAnswer()
@@ -75,6 +78,7 @@ extension MainHub {
             print("  1 -> Library Info")
             print("  2 -> Donate a book")
             print("  3 -> Rent a book")
+            print("  4 -> Auth")
             print("  quit -> Shutdown Service")
             print("")
         }

@@ -9,32 +9,65 @@ import Foundation
 
 struct Auth: Station {
     
+    let authService: AuthServiceProtocol
+    
+    init(authService: AuthServiceProtocol = AuthService(), navigationHandler: @escaping (Destination) -> Void) {
+        self.authService = authService
+        self.navigationHandler = navigationHandler
+    }
+    
     var navigationHandler: (Destination) -> Void
     
     func start() {
         Logs.authGreetings()
-        UserInteraction.requestAuthMethod { userInput in
-            requestAuthMethodHandler(input: userInput)
-        }
+        presentAuthHub()
     }
     
     func requestAuthMethodHandler(input: String) {
         switch input {
         case "1":
             UserInteraction.loginCredentials { username, password in
-                print("try to make login with username: \(username)")
+                attemptToLoginWith(username: username, password: password)
             }
         case "2":
-            UserInteraction.registerAccount { username, password in
-                print("try to create account with username: \(username)")
+            UserInteraction.registerAccount { username, email, password  in
+                attemptToRegisterWith(username: username, email: email, password: password)
             }
         case "3":
             navigationHandler(.mainHub)
         default:
             Logs.error()
-            UserInteraction.requestAuthMethod { userInput in
-                requestAuthMethodHandler(input: userInput)
-            }
+            presentAuthHub()
+        }
+    }
+    
+    private func attemptToLoginWith(username: String, password: String) {
+        let result = authService.login(username: username, password: password)
+        switch result {
+        case .success(let success):
+            print(success)
+        case .failure(let failure):
+            print(failure)
+            Logs.error()
+            presentAuthHub()
+        }
+    }
+    
+    private func attemptToRegisterWith(username: String, email: String, password: String) {
+        let result = authService.registerAccount(username: username, email: email, password: password)
+        switch result {
+        case .success(let success):
+            print(success)
+        case .failure(let failure):
+            print(failure)
+            Logs.error()
+            presentAuthHub()
+        }
+    }
+    
+    private func presentAuthHub() {
+        UserInteraction.requestAuthMethod { userInput in
+            requestAuthMethodHandler(input: userInput)
         }
     }
 }
@@ -73,8 +106,26 @@ extension Auth {
             handler(username, password)
         }
         
-        static func registerAccount(handler: ((String, String) -> Void)) {
+        static func registerAccount(handler: ((String, String, String) -> Void)) {
+            print("Wellcome to our library!!")
+            print("We need some data to register your account...")
             
+            print("Please, provide a username: ")
+            let username = readLine()
+            
+            print("Please, inform your best e-mail: ")
+            let email = readLine()
+            
+            print("create you custom password: ")
+            let password = readLine()
+            
+            guard let username = username, let email = email, let password = password else {
+                Logs.error()
+                registerAccount(handler: handler)
+                return
+            }
+            
+            handler(username, email, password)
         }
     }
     
@@ -82,14 +133,21 @@ extension Auth {
         static func authGreetings() {
             print("We like to keep record of our clients for documentation")
             print("Let's figure out who you are before we proceed")
-            print("")
+            printEmptyLines()
         }
         
         static func error() {
             print("Ops....")
             print("Something went wrong.")
             print("Let's try again")
-            print("")
+            printEmptyLines()
+        }
+        
+        static func printEmptyLines(numberOfLines: Int = 1) {
+            guard numberOfLines > 0 else { return }
+            for _ in 0...numberOfLines {
+                print("")
+            }
         }
     }
 }

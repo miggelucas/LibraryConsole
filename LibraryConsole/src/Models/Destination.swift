@@ -13,4 +13,5 @@ enum Destination {
     case info
     case donate
     case rent
+    case auth
 }
